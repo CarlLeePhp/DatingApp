@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User } from '../_models/User';
+import { AccountService } from '../_services/account.service';
 
 @Component({
   selector: 'app-users',
@@ -9,10 +11,16 @@ import { HttpClient } from '@angular/common/http';
 export class UsersComponent implements OnInit {
   users: any;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private accountService: AccountService) { }
 
   ngOnInit(): void {
     this.getUsers();
+    this.setCurrentUser();
+  }
+
+  setCurrentUser(){
+    const user:User = JSON.parse(localStorage.getItem("user"));
+    this.accountService.setCurrentUser(user);
   }
 
   getUsers(): void {
